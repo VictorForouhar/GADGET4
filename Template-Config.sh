@@ -130,7 +130,7 @@ INITIAL_CONDITIONS_CONTAIN_ENTROPY
 #POWERSPEC_ON_OUTPUT                          # computes a matter power spectrum when the code writes a snapshot output
 #ALLOW_HDF5_COMPRESSION                       # applies HDF5 loss-less compression to selected output fields
 #REDUCE_FLUSH                                 # do not flush the I/O streams of the log-files every system step
-
+#OUTPUT_LIMITED_TIMESTEP                      # adapts timesteps to ensure no outputs are skipped due to too large timesteps
 
 #---------------------------------------- On the fly FOF groupfinder
 

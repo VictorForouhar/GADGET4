@@ -1048,6 +1048,19 @@ speed).
 
 -------
 
+**OUTPUT_LIMITED_TIMESTEP**
+
+By default, output times are mapped to a multiple of MaxSizeTimestep. 
+This means that a high output cadence, i.e. consecutive outputs within 
+half the MaxSizeTimestep value, can lead to the omission of files. When 
+enabled, this maps output times to a finer time grid, determined by the 
+parameter `OutputTimePrecision`. It also limits the size of timesteps near 
+output times. Of course, an alternative solution is to lower the value of
+MaxSizeTimestep. However, this affects all timesteps, regardless of whether
+the high output cadence only occurs during a subset of the simulation.
+
+-------
+
 On the fly FOF groupfinder                                  {#fof}
 ==========================
 

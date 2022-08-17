@@ -199,6 +199,10 @@ void global_data_all_processes::register_parameters(void)
   add_param("A_StaticHQHalo", &A_StaticHQHalo, PARAM_DOUBLE, PARAM_FIXED);
   add_param("Mass_StaticHQHalo", &Mass_StaticHQHalo, PARAM_DOUBLE, PARAM_FIXED);
 #endif
+
+#ifdef OUTPUT_LIMITED_TIMESTEP
+  add_param("OutputTimePrecision", &OutputTimePrecision, PARAM_DOUBLE, PARAM_CHANGEABLE);
+#endif
 }
 
 /*! \brief This function reads a table with a list of desired output times.

@@ -166,7 +166,7 @@ struct global_data_all_processes : public parameters
 #endif
 
   int SnapshotFileCount;        /**< number of snapshot that is written next */
-  double TimeBetSnapshot;       /**< simulation time interval between snapshot files */
+  double TimeBetSnapshot;       /**< simulation time interval between snapshot files */ // NOTE: can this be used for limiting timestep size near output?
   double TimeOfFirstSnapshot;   /**< simulation time of first snapshot files */
   double CpuTimeBetRestartFile; /**< cpu-time between regularly generated restart files */
   double TimeLastRestartFile;   /**< cpu-time when last restart-file was written */
@@ -350,6 +350,10 @@ struct global_data_all_processes : public parameters
 #ifdef EXTERNALGRAVITY_STATICHQ
   double A_StaticHQHalo;
   double Mass_StaticHQHalo;
+#endif
+
+#ifdef OUTPUT_LIMITED_TIMESTEP
+  double OutputTimePrecision;
 #endif
 
   void set_cosmo_factors_for_current_time(void);

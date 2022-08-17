@@ -667,6 +667,15 @@ ignored.
 
 -------
 
+**OutputTimePrecision**
+
+This determines the size of the time grid used to map the requested output 
+times. Smaller values correspond to output times closer to the requested 
+ones. If `OUTPUT_LIMITED_TIMESTEP` is not enabled, this will default to 
+`MaxSizeTimestep`.
+
+-------
+
 **TimeOfFirstSnapshot**  0.047619048
 
 This variable selects the time for the first snapshot (relevant only
