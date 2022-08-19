@@ -382,7 +382,7 @@ integertime sim::find_next_outputtime(integertime ti_curr)
 #ifndef OUTPUT_NON_SYNCHRONIZED_ALLOWED
               /* We will now modify 'ti' to map it to the closest available output time according to either MaxSizeTimestep
                * or OutputTimePrecision, if the latter is defined. The real output time may hence deviate by half the value 
-               *  of either of these quantities from the desired output time.
+               * of either of these quantities from the desired output time.
                */
 
               /* first, determine maximum output interval, based on All.MaxSizeTimestep or All.OutputTimePrecision */
@@ -457,13 +457,16 @@ integertime sim::find_next_outputtime(integertime ti_curr)
             ti = (integertime)((time - All.TimeBegin) / All.Timebase_interval);
 
 #ifndef OUTPUT_NON_SYNCHRONIZED_ALLOWED
-          /* We will now modify 'ti' to map it to the closest available output time according to the specified MaxSizeTimestep.
-           * The real output time may hence deviate by  +/- 0.5*MaxSizeTimestep from the desired output time.
+          /* We will now modify 'ti' to map it to the closest available output time according to either MaxSizeTimestep
+           * or OutputTimePrecision, if the latter is defined. The real output time may hence deviate by half the value 
+           * of either of these quantities from the desired output time.
            */
 
-          /* first, determine maximum output interval based on All.MaxSizeTimestep */
+#ifdef OUTPUT_LIMITED_TIMESTEP
+          integertime timax = (integertime)(All.OutputTimePrecision / All.Timebase_interval);
+#else
           integertime timax = (integertime)(All.MaxSizeTimestep / All.Timebase_interval);
-
+#endif
           /* make it a power 2 subdivision */
           integertime ti_min = TIMEBASE;
           while(ti_min > timax)
