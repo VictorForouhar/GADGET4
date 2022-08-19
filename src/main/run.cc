@@ -164,7 +164,7 @@ void sim::run(void)
 #endif
       create_snapshot_if_desired();
 
-/* Calculates how long until we need an outputfile. Used to limit
+/* Calculates how long until we need an output file. Used to limit
    timesteps when close. */ 
 #ifdef OUTPUT_LIMITED_TIMESTEP
       if (All.ComovingIntegrationOn)
@@ -381,7 +381,7 @@ integertime sim::find_next_outputtime(integertime ti_curr)
 
 #ifndef OUTPUT_NON_SYNCHRONIZED_ALLOWED
               /* We will now modify 'ti' to map it to the closest available output time according to either MaxSizeTimestep
-               * or OutputTimePrecision, if the latter if defined. The real output time may hence deviate by half the value 
+               * or OutputTimePrecision, if the latter is defined. The real output time may hence deviate by half the value 
                *  of either of these quantities from the desired output time.
                */
 
