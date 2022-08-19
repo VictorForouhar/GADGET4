@@ -166,13 +166,17 @@ struct global_data_all_processes : public parameters
 #endif
 
   int SnapshotFileCount;        /**< number of snapshot that is written next */
-  double TimeBetSnapshot;       /**< simulation time interval between snapshot files */ // NOTE: can this be used for limiting timestep size near output?
+  double TimeBetSnapshot;       /**< simulation time interval between snapshot files */
   double TimeOfFirstSnapshot;   /**< simulation time of first snapshot files */
   double CpuTimeBetRestartFile; /**< cpu-time between regularly generated restart files */
   double TimeLastRestartFile;   /**< cpu-time when last restart-file was written */
   double TimeBetStatistics;     /**< simulation time interval between computations of energy statistics */
   double TimeLastStatistics;    /**< simulation time when the energy statistics was computed the last time */
   int NumCurrentTiStep;         /**< counts the number of system steps taken up to this point */
+
+#ifdef OUTPUT_LIMITED_TIMESTEP
+  double TimeToNextOutput; /**< time to next data output */
+#endif
 
   /* Current time of the simulation, global step, and end of simulation */
 
