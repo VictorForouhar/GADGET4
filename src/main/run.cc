@@ -163,6 +163,15 @@ void sim::run(void)
 #endif
       create_snapshot_if_desired();
 
+/* Calculates how long until we need an output file. Used to limit
+   timesteps when close. */ 
+#ifdef OUTPUT_LIMITED_TIMESTEP
+      if (All.ComovingIntegrationOn)
+        All.TimeToNextOutput = log(All.get_absolutetime_from_integertime(All.Ti_nextoutput)) - log(All.Time);
+      else
+        All.TimeToNextOutput = All.get_absolutetime_from_integertime(All.Ti_nextoutput) - All.Time;
+#endif
+
 #ifdef DEBUG_MD5
       Logs.log_debug_md5("AFTER SNAP");
 #endif
@@ -370,12 +379,17 @@ integertime sim::find_next_outputtime(integertime ti_curr)
                 ti = (integertime)((time - All.TimeBegin) / All.Timebase_interval);
 
 #ifndef OUTPUT_NON_SYNCHRONIZED_ALLOWED
-              /* We will now modify 'ti' to map it to the closest available output time according to the specified MaxSizeTimestep.
-               * The real output time may hence deviate by  +/- 0.5*MaxSizeTimestep from the desired output time.
+              /* We will now modify 'ti' to map it to the closest available output time according to either MaxSizeTimestep
+               * or OutputTimePrecision, if the latter is defined. The real output time may hence deviate by half the value 
+               * of either of these quantities from the desired output time.
                */
 
-              /* first, determine maximum output interval based on All.MaxSizeTimestep */
+              /* first, determine maximum output interval, based on All.MaxSizeTimestep or All.OutputTimePrecision */
+#ifdef OUTPUT_LIMITED_TIMESTEP
+              integertime timax = (integertime)(All.OutputTimePrecision / All.Timebase_interval);
+#else
               integertime timax = (integertime)(All.MaxSizeTimestep / All.Timebase_interval);
+#endif
 
               /* make it a power 2 subdivision */
               integertime ti_min = TIMEBASE;
@@ -442,13 +456,16 @@ integertime sim::find_next_outputtime(integertime ti_curr)
             ti = (integertime)((time - All.TimeBegin) / All.Timebase_interval);
 
 #ifndef OUTPUT_NON_SYNCHRONIZED_ALLOWED
-          /* We will now modify 'ti' to map it to the closest available output time according to the specified MaxSizeTimestep.
-           * The real output time may hence deviate by  +/- 0.5*MaxSizeTimestep from the desired output time.
+          /* We will now modify 'ti' to map it to the closest available output time according to either MaxSizeTimestep
+           * or OutputTimePrecision, if the latter is defined. The real output time may hence deviate by half the value 
+           * of either of these quantities from the desired output time.
            */
 
-          /* first, determine maximum output interval based on All.MaxSizeTimestep */
+#ifdef OUTPUT_LIMITED_TIMESTEP
+          integertime timax = (integertime)(All.OutputTimePrecision / All.Timebase_interval);
+#else
           integertime timax = (integertime)(All.MaxSizeTimestep / All.Timebase_interval);
-
+#endif
           /* make it a power 2 subdivision */
           integertime ti_min = TIMEBASE;
           while(ti_min > timax)

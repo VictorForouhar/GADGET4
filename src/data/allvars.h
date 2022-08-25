@@ -174,6 +174,10 @@ struct global_data_all_processes : public parameters
   double TimeLastStatistics;    /**< simulation time when the energy statistics was computed the last time */
   int NumCurrentTiStep;         /**< counts the number of system steps taken up to this point */
 
+#ifdef OUTPUT_LIMITED_TIMESTEP
+  double TimeToNextOutput; /**< time to next data output */
+#endif
+
   /* Current time of the simulation, global step, and end of simulation */
 
   double Time;      /**< current time of the simulation */
@@ -350,6 +354,10 @@ struct global_data_all_processes : public parameters
 #ifdef EXTERNALGRAVITY_STATICHQ
   double A_StaticHQHalo;
   double Mass_StaticHQHalo;
+#endif
+
+#ifdef OUTPUT_LIMITED_TIMESTEP
+  double OutputTimePrecision;
 #endif
 
   void set_cosmo_factors_for_current_time(void);
