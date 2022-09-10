@@ -208,13 +208,6 @@ integertime simparticles::get_timestep_grav(int p /*!< particle index */)
   if(dt >= All.MaxSizeTimestep)
     dt = All.MaxSizeTimestep;
 
-  /* Limits the timestep if we are close to an output time. Need to enforce non-zero value as otherwise
-     it will halt the simulation when we coincide in time with an output time. */
-#ifdef OUTPUT_LIMITED_TIMESTEP
-  if(dt >= All.TimeToNextOutput && All.TimeToNextOutput > 0)
-    dt = All.TimeToNextOutput;
-#endif
-
 #if defined(SELFGRAVITY) && defined(PMGRID) && !defined(TREEPM_NOTIMESPLIT)
   if(dt >= All.DtDisplacement)
     dt = All.DtDisplacement;
@@ -233,6 +226,13 @@ integertime simparticles::get_timestep_grav(int p /*!< particle index */)
     }
 
   integertime ti_step = (integertime)(dt / All.Timebase_interval);
+
+  /* Limits the timestep if we are close to an output time. Need to enforce non-zero value as otherwise
+     it will halt the simulation when we coincide in time with an output time. */
+#ifdef OUTPUT_LIMITED_TIMESTEP
+  if (All.TimeToNextOutput != 0)
+    ti_step = std::min(ti_step, All.TimeToNextOutput);
+#endif
 
   if(!(ti_step > 0 && ti_step < TIMEBASE))
     {
@@ -346,13 +346,6 @@ integertime simparticles::get_timestep_hydro(int p /*!< particle index */)
   if(dt >= All.MaxSizeTimestep)
     dt = All.MaxSizeTimestep;
 
-  /* Limits the timestep if we are close to an output time. Need to enforce non-zero value as otherwise
-     it will halt the simulation when we coincide in time with an output time. */
-#ifdef OUTPUT_LIMITED_TIMESTEP
-  if(dt >= All.TimeToNextOutput && All.TimeToNextOutput > 0)
-    dt = All.TimeToNextOutput;
-#endif
-
 #if defined(PMGRID) && !defined(TREEPM_NOTIMESPLIT)
   if(dt >= All.DtDisplacement)
     dt = All.DtDisplacement;
@@ -369,6 +362,13 @@ integertime simparticles::get_timestep_hydro(int p /*!< particle index */)
     }
 
   integertime ti_step = (integertime)(dt / All.Timebase_interval);
+
+  /* Limits the timestep if we are close to an output time. Need to enforce non-zero value as otherwise
+     it will halt the simulation when we coincide in time with an output time. */
+#ifdef OUTPUT_LIMITED_TIMESTEP
+  if (All.TimeToNextOutput != 0)
+    ti_step = std::min(ti_step, All.TimeToNextOutput);
+#endif
 
   if(!(ti_step > 0 && ti_step < TIMEBASE))
     {
