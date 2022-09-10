@@ -175,7 +175,7 @@ struct global_data_all_processes : public parameters
   int NumCurrentTiStep;         /**< counts the number of system steps taken up to this point */
 
 #ifdef OUTPUT_LIMITED_TIMESTEP
-  double TimeToNextOutput; /**< time to next data output */
+  integertime TimeToNextOutput; /**< time to next data output */
 #endif
 
   /* Current time of the simulation, global step, and end of simulation */

@@ -81,6 +81,12 @@ void sim::run(void)
       All.set_cosmo_factors_for_current_time();
       All.TimeStep = All.Time - All.TimeOld;
 
+      /* Calculates how long until we need an output file. Used to limit
+        timesteps when close. */ 
+#ifdef OUTPUT_LIMITED_TIMESTEP
+      All.TimeToNextOutput = All.Ti_nextoutput - All.Ti_Current; 
+#endif
+
 #ifdef LIGHTCONE
 #ifdef LIGHTCONE_PARTICLES
       mpi_printf("LIGHTCONE_PARTICLES: Lp.NumPart=%d   Checked %d box replicas out of list of length %d\n", Lp.NumPart,
@@ -162,15 +168,6 @@ void sim::run(void)
       Logs.log_debug_md5("BEFORE SNAP");
 #endif
       create_snapshot_if_desired();
-
-/* Calculates how long until we need an output file. Used to limit
-   timesteps when close. */ 
-#ifdef OUTPUT_LIMITED_TIMESTEP
-      if (All.ComovingIntegrationOn)
-        All.TimeToNextOutput = log(All.get_absolutetime_from_integertime(All.Ti_nextoutput)) - log(All.Time);
-      else
-        All.TimeToNextOutput = All.get_absolutetime_from_integertime(All.Ti_nextoutput) - All.Time;
-#endif
 
 #ifdef DEBUG_MD5
       Logs.log_debug_md5("AFTER SNAP");
