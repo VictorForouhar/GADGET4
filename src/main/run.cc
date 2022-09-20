@@ -84,7 +84,12 @@ void sim::run(void)
       /* Calculates how long until we need an output file. Used to limit
         timesteps when close. */ 
 #ifdef OUTPUT_LIMITED_TIMESTEP
-      All.TimeToNextOutput = All.Ti_nextoutput - All.Ti_Current; 
+      All.TimeToNextOutput = All.Ti_nextoutput - All.Ti_Current;
+
+      /* This condition handles times when an output is to be saved. 
+         Otherwise timestep limit is set to zero. */
+      if (All.TimeToNextOutput == 0)
+        All.TimeToNextOutput = find_next_outputtime(All.Ti_Current + 1) - All.Ti_Current;
 #endif
 
 #ifdef LIGHTCONE
