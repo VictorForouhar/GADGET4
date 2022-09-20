@@ -54,7 +54,7 @@ Dashed, vertical red lines indicate the integer times the simulation can reach, 
 across each timebin. The green line is the requested output time and the black line shows the timesteps 
 taken by the simulation, with vertical directions indicating timebin traversal. 
 
-![](OUTPUT_LIMITED_TIMESTEP_example.png)
+![](documentation/img/OUTPUT_LIMITED_TIMESTEP_example.png)
 
 Firstly, the output time is mapped to the grid defined by the 15th timebin; without OutputTimePrecision,
 it would have used the 20th timebin grid. Secondly, the simulation will try to take the largest timestep
