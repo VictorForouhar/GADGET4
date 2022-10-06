@@ -88,8 +88,14 @@ void sim::run(void)
 
       /* This condition handles times when an output is to be saved. 
          Otherwise timestep limit is set to zero. */
-      if (All.TimeToNextOutput == 0)
+      if (All.TimeToNextOutput == 0) {
+
+        // Temp variable to prevent changes to output type when calling this 
+        // if condition, as find_next_outputtime will in general change it.
+        char DumpFlag_temp = All.DumpFlag_nextoutput; 
         All.TimeToNextOutput = find_next_outputtime(All.Ti_Current + 1) - All.Ti_Current;
+        All.DumpFlag_nextoutput = DumpFlag_temp; 
+      }
 #endif
 
 #ifdef LIGHTCONE
