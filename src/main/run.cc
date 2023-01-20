@@ -9,6 +9,10 @@
  *  \brief contains the basic simulation loop that iterates over timesteps
  */
 
+// clang-format off
+#include "gadgetconfig.h"
+// clang-format on
+
 #include <ctype.h>
 #include <math.h>
 #include <mpi.h>
@@ -33,7 +37,6 @@
 #include "../ngbtree/ngbtree.h"
 #include "../sort/parallel_sort.h"
 #include "../system/system.h"
-#include "gadgetconfig.h"
 
 /*!
  * Main driver routine for advancing the simulation forward in time.
@@ -100,8 +103,7 @@ void sim::run(void)
 
 #ifdef LIGHTCONE
 #ifdef LIGHTCONE_PARTICLES
-      mpi_printf("LIGHTCONE_PARTICLES: Lp.NumPart=%d   Checked %d box replicas out of list of length %d\n", Lp.NumPart,
-                 LightCone.NumLastCheck, LightCone.NumBoxes);
+      mpi_printf("LIGHTCONE_PARTICLES: Lp.NumPart=%d\n", Lp.NumPart);
 #endif
 #ifdef LIGHTCONE_MASSMAPS
       mpi_printf("LIGHTCONE_MASSMAPS:  Mp.NumPart=%d \n", Mp.NumPart);
@@ -290,7 +292,7 @@ int sim::check_for_interruption_of_run(void)
       FILE *fd;
       char stopfname[MAXLEN_PATH_EXTRA];
 
-      sprintf(stopfname, "%sstop", All.OutputDir);
+      snprintf(stopfname, MAXLEN_PATH_EXTRA, "%sstop", All.OutputDir);
       if((fd = fopen(stopfname, "r"))) /* Is the stop-file present? If yes, interrupt the run. */
         {
           fclose(fd);
@@ -299,7 +301,7 @@ int sim::check_for_interruption_of_run(void)
           unlink(stopfname);
         }
 
-      sprintf(stopfname, "%srestart", All.OutputDir);
+      snprintf(stopfname, MAXLEN_PATH_EXTRA, "%srestart", All.OutputDir);
       if((fd = fopen(stopfname, "r"))) /* Is the restart-file present? If yes, write a user-requested restart file. */
         {
           fclose(fd);
@@ -330,7 +332,7 @@ int sim::check_for_interruption_of_run(void)
         {
           FILE *fd;
           char contfname[MAXLEN_PATH_EXTRA];
-          sprintf(contfname, "%scont", All.OutputDir);
+          snprintf(contfname, MAXLEN_PATH_EXTRA, "%scont", All.OutputDir);
           if((fd = fopen(contfname, "w")))
             fclose(fd);
         }
